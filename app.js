@@ -18,6 +18,7 @@ var paths = {
 var routes = require(paths.config + 'routes.json');
 
 exports.start = function(request, response, next){
+    var fs = require('fs');
     var url = require('url');
     var querystring = require('querystring');
 
@@ -25,6 +26,14 @@ exports.start = function(request, response, next){
     var page = $.require('router').get(routes, path);
     console.log(page);
 
+    if (typeof page.ctrl !== 'undefined'){
+        var controller = require(paths.controllers + "/" + page.file);
+    }
+
+    if (fs.existsSync(paths.html + "/" + page.file)){
+        var content = fs.readFileSync(paths.html + "/" + page.file);
+    }
+
     reponse.writeHead(200, {'Content-Type':'text/html'});
-    response.end('hello world index');
+    response.end(content);
 };

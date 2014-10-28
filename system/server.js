@@ -20,6 +20,7 @@ httpServer = function(server){
         } else {
             app = require(server.hosts['default'].root);
         }
+        app.run(request, response, server.hosts[host]);
 
         response.writeHead(200, {'Content-Type':'text/plain'});
         response.end('Hello World');
@@ -54,6 +55,7 @@ httpsServer = function(server){
         } else {
             app = require(server.hosts['default'].root);
         }
+        app.run(request, response, server.hosts[host]);
 
         response.writeHead(200, {'Content-Type':'text/plain'});
         response.end('Hello World');
