@@ -1,0 +1,39 @@
+[
+  {
+    "port":8080,
+    "protocol":"http",
+    "hosts":{
+      "localhost:8080":{
+        "name":"website",
+        "root":"C:/Users/Shadow/Documents/JS/Fw/website/web/index.js",
+        "env":"dev"
+      },
+      "www.website.com:8080":{
+        "name":"website",
+        "root":"C:/Users/Shadow/Documents/JS/Fw/website/web/index.js",
+        "env":"prod"
+      },
+      "default":{
+        "name":"Default",
+        "root":"C:/home/framework/home/default/web/index.js",
+        "env":"prod"
+      }
+    }
+  },
+  {
+    "port": 8081,
+    "protocol": "http",
+    "hosts": {
+      "localhost:8081": {
+        "name": "Demo",
+        "root": "C:/Users/Shadow/Documents/JS/Fw/website/web/index.js",
+        "env": "prod"
+      },
+      "default": {
+        "name": "Default",
+        "root": "C:/Users/Shadow/Documents/JS/Fw/website/web/index.js",
+        "env": "dev"
+      }
+    }
+  }
+]
