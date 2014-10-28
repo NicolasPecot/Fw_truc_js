@@ -24,16 +24,47 @@ exports.start = function(request, response, next){
 
     var path = url.parse(request.url).pathname;
     var page = $.require('router').get(routes, path);
-    console.log(page);
+
+    var content;
 
     if (typeof page.ctrl !== 'undefined'){
         var controller = require(paths.controllers + "/" + page.file);
     }
 
-    if (fs.existsSync(paths.html + "/" + page.file)){
-        var content = fs.readFileSync(paths.html + "/" + page.file);
-    }
+    var display = function(content){
+        reponse.writeHead(200, {'Content-Type':'text/html'});
+        response.end(content);
+    };
 
-    reponse.writeHead(200, {'Content-Type':'text/html'});
-    response.end(content);
+    if (typeof file[page.type][page.name] !== 'undefined'){
+        content = file.html[page.name];
+    } else {
+        fs.exists(paths.html+'/'+page.file, function(exists){
+            if (exists){
+                fs.readFile(paths.html+'/'+page.file, 'utf8', function(err, data){
+                    if (err) throw err;
+                    content = data;
+                    display(content);
+                });
+            }
+        });
+    }
+};
+
+exports.load = function(){
+    console.log("loading resources...");
+
+    var loadFile = function(name, path, type){
+        var option = (type !== 'image') ? 'utf8' : null;
+        fs.exists(path, function(exists) {
+            if (exists) {
+                fs.readFile(path, option, function (err, data) {
+                    if (err) throw err;
+                    file[type][name] = data;
+                });
+            }
+        });
+    }
+    console.log('resources loaded');
+    return this;
 };
