@@ -36,6 +36,16 @@ exports.start = function(request, response, next){
         response.end(content);
     };
 
+    var createResponse = function(content) {
+        if (typeof page.ctrl !== 'undefined') {
+            var controller = require(paths.controllers+'/'+page.ctrl);
+            controller.exec(res, content);
+        } else {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(content);
+        }
+    }
+
     if (typeof file[page.type][page.name] !== 'undefined'){
         content = file.html[page.name];
     } else {
@@ -45,7 +55,10 @@ exports.start = function(request, response, next){
                     if (err) throw err;
                     content = data;
                     display(content);
+                    createResponse(content);
                 });
+            } else {
+                createResponse(null);
             }
         });
     }
